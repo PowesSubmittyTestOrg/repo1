@@ -1,8 +1,9 @@
-name: Add PR to project
+name: Arrange project cards correctly
 on:
   pull_request:
     types:
       - converted_to_draft
+      - ready_for_review
 
 jobs:
   move_to_drafts:
@@ -16,9 +17,20 @@ jobs:
           private-key: ${{ secrets.APP_PEM }}
 
       - name: Move draft to Drafts
+      - if: ${{ github.event.pull_request.draft }}
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           PR_ID: ${{ github.event.pull_request.number }}
         run: |
           PR_PROJECT_ID="$(gh project item-list --owner PowesSubmittyTestOrg 1 --format json --jq "[.items[] | {id, labels, status, title: .content.title, repo: .content.repository, number: .content.number}] | .[] | select(.number == "$PR_ID").id")"
           gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_PROJECT_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id '98236657'
+
+      - name: Move un-draft to Todo
+      - if: ${{ !github.event.pull_request.draft }}
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          PR_ID: ${{ github.event.pull_request.number }}
+        run: |
+          PR_PROJECT_ID="$(gh project item-list --owner PowesSubmittyTestOrg 1 --format json --jq "[.items[] | {id, labels, status, title: .content.title, repo: .content.repository, number: .content.number}] | .[] | select(.number == "$PR_ID").id")"
+          gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_PROJECT_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id 'f75ad846'
+

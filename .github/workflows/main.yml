@@ -1,0 +1,23 @@
+name: Add PR to project
+on:
+  pull_request:
+    types:
+      - converted_to_draft
+
+jobs:
+  track_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PEM }}
+
+      - name: Move draft to Drafts
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          PR_ID: ${{ github.event.pull_request.node_id }}
+        run: |
+          echo PR_ID

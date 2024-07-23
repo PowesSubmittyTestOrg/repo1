@@ -15,7 +15,7 @@
 1. Generate a private key. This will download a .pem file that we will use later
 2. Copy/save the APP_ID (a six-digit number)
 3. Go to "Install App" and Install on the Submitty organization
-4. When it asks for repository access, choose All Repositories (this allows repositories created in the future to be handled by the app without having to change permissions for it)
+4. When it asks for repository access, choose All Repositories (this allows repositories created in the future to be handled by the app without having to change permissions for it; the Github Actions using this App will still be per-repo)
 
 ## Part III: Set up environment variables and secrets
 

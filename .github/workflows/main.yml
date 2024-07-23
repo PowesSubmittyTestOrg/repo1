@@ -18,6 +18,7 @@ jobs:
       - name: Move draft to Drafts
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-          PR_ID: ${{ github.event.pull_request.node_id }}
+          PR_ID: ${{ github.event.pull_request.number }}
         run: |
-          gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id 'Drafts'
+          PR_PROJECT_ID="$(gh project item-list --format json --jq "[.items[] | {id, labels, status, title: .content.title, repo: .content.repository, number: .content.number}] | .[] | select(.number == "$PR_ID").id")"
+          gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_PROJECT_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id 'Drafts'

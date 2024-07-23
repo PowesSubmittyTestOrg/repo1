@@ -5,7 +5,7 @@ on:
       - converted_to_draft
 
 jobs:
-  track_pr:
+  move_to_drafts:
     runs-on: ubuntu-latest
     steps:
       - name: Generate token
@@ -20,4 +20,4 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           PR_ID: ${{ github.event.pull_request.node_id }}
         run: |
-          echo PR_ID
+          gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id 'Drafts

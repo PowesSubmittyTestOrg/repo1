@@ -21,4 +21,4 @@ jobs:
           PR_ID: ${{ github.event.pull_request.number }}
         run: |
           PR_PROJECT_ID="$(gh project item-list --owner PowesSubmittyTestOrg 1 --format json --jq "[.items[] | {id, labels, status, title: .content.title, repo: .content.repository, number: .content.number}] | .[] | select(.number == "$PR_ID").id")"
-          gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_PROJECT_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id 'Drafts'
+          gh project item-edit --project-id PVT_kwDOCoPXyM4AlKrr --id "$PR_PROJECT_ID" --field-id 'PVTSSF_lADOCoPXyM4AlKrrzgdQxp4' --single-select-option-id '98236657'
